@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Tic Tac Toe</title>
+		<style>
+			.container {
+				width: 50%;
+				margin: 0 auto;
+				background-color: azure;
+				display: grid;
+				gap: 2px;
+				grid-template-columns: repeat(3, 100px);
+				grid-template-rows: repeat(3, 100px);
+				place-content: center;
+			}
+			.container > div {
+				place-content: center;
+				width: 100px;
+				height: 100px;
+				background-color: black;
+				text-align: center;
+				line-height: 100px;
+			}
+			.container > div:hover {
+				background-color: yellow;
+				cursor: pointer;
+			}
+			div {
+				font-size: 80px;
+				color: white;
+			}
+			h1 {
+				text-align: center;
+			}
+			a {
+				text-decoration: none;
+			}
+		</style>
+	</head>
+	<body>
+		<h1 id="turn_text">Your Turn</h1>
+		<div class="container">
+			<div onclick="putX0(this.id)" id="box1">1</div>
+			<div onclick="putX0(this.id)" id="box2">2</div>
+			<div onclick="putX0(this.id)" id="box3">3</div>
+
+			<div onclick="putX0(this.id)" id="box4">4</div>
+			<div onclick="putX0(this.id)" id="box5">5</div>
+			<div onclick="putX0(this.id)" id="box6">6</div>
+
+			<div onclick="putX0(this.id)" id="box7">7</div>
+			<div onclick="putX0(this.id)" id="box8">8</div>
+			<div onclick="putX0(this.id)" id="box9">9</div>
+		</div>
+		<h1><a href="login.html">Logout</a></h1>
+		<script>
+			var x = 0;
+			let X = localStorage.getItem("X");
+			let O = localStorage.getItem("O");
+			let draw = true;
+			let turn_text = document.getElementById("turn_text");
+			turn_text.innerHTML = X + " Your Turn";
+			function putX0(pos) {
+				if (x < 9) {
+					if (x % 2 == 0) {
+						document.getElementById(pos).innerHTML = "X";
+						document.getElementById(pos).style.pointerEvents = "none";
+						document.getElementById(pos).style.backgroundColor = "blue";
+						turn_text.innerHTML = O + " Your Turn";
+					} else {
+						document.getElementById(pos).innerHTML = "0";
+						document.getElementById(pos).style.pointerEvents = "none";
+						document.getElementById(pos).style.backgroundColor = "green";
+						turn_text.innerHTML = X + " Your Turn";
+					}
+				}
+				let box1 = document.getElementById("box1").innerHTML;
+				let box2 = document.getElementById("box2").innerHTML;
+				let box3 = document.getElementById("box3").innerHTML;
+				let box4 = document.getElementById("box4").innerHTML;
+				let box5 = document.getElementById("box5").innerHTML;
+				let box6 = document.getElementById("box6").innerHTML;
+				let box7 = document.getElementById("box7").innerHTML;
+				let box8 = document.getElementById("box8").innerHTML;
+				let box9 = document.getElementById("box9").innerHTML;
+
+				/* =================================== rows ====================================================*/
+				// if (box1 != "" && box2 != "" && box3 != "" && box1 == box2 && box2 == box3) { // first row
+				// if (box4 != "" && box5 != "" && box6 != "" && box4 == box5 && box5 == box6){ //  second row
+				// if (box7 != "" && box8 != "" && box9 != "" && box7 == box8 && box8 == box9){ //  thrid row
+				/* =================================== rows end ====================================================*/
+
+				/* =================================== cols ====================================================*/
+				// if (box1 != "" && box4 != "" && box7 != "" && box1 == box4 &&box4 == box7) {// first col
+				// if (box2 != "" && box5 != "" && box8 != "" && box2 == box5 && box5 == box8){ //  second col
+				// if (box3 != "" && box6 != "" && box9 != "" && box3 == box6 && box6 == box9){ //  thrid col
+				/* =================================== cols end ====================================================*/
+
+				/* =================================== diagonals ====================================================*/
+				// if (box1 != "" && box5 != "" && box9 != "" && box1 == box5 && box5 == box9) { // first diagonal
+				// if (box3 != "" && box5 != "" && box7 != "" && box3 == box5 && box5 == box7){ //  second diagonal
+				/* =================================== diagonals end ====================================================*/
+				if (
+					(box1 != "" &&
+						box2 != "" &&
+						box3 != "" &&
+						box1 == box2 &&
+						box2 == box3) ||
+					(box4 != "" &&
+						box5 != "" &&
+						box6 != "" &&
+						box4 == box5 &&
+						box5 == box6) ||
+					(box7 != "" &&
+						box8 != "" &&
+						box9 != "" &&
+						box7 == box8 &&
+						box8 == box9) ||
+					(box1 != "" &&
+						box4 != "" &&
+						box7 != "" &&
+						box1 == box4 &&
+						box4 == box7) ||
+					(box2 != "" &&
+						box5 != "" &&
+						box8 != "" &&
+						box2 == box5 &&
+						box5 == box8) ||
+					(box3 != "" &&
+						box6 != "" &&
+						box9 != "" &&
+						box3 == box6 &&
+						box6 == box9) ||
+					(box1 != "" &&
+						box5 != "" &&
+						box9 != "" &&
+						box1 == box5 &&
+						box5 == box9) ||
+					(box3 != "" &&
+						box5 != "" &&
+						box7 != "" &&
+						box3 == box5 &&
+						box5 == box7)
+				) {
+					if (x % 2 == 0) {
+						turn_text.innerHTML = X + " Won the match";
+						draw = false;
+						disableAll();
+					} else {
+						draw = false;
+						disableAll();
+						turn_text.innerHTML = O + " Won the match";
+					}
+				}
+				x++;
+				if (draw == true && x == 9) {
+					turn_text.innerHTML = "Match Draw";
+				}
+			}
+			function disableAll() {
+				for (i = 1; i <= 9; i++)
+					document.getElementById("box" + i).style.pointerEvents = "none";
+			}
+		</script>
+	</body>
+</html>
